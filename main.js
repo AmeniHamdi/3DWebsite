@@ -11,7 +11,10 @@ const renderer = new THREE.WebGLRenderer({
 const loader= new GLTFLoader();
 loader.load('assets/Island.glb',function(glb){
   console.log(glb);
-}, function(xhr){console.log((xhr.loaded/xhr.total * 100) + "% loaded")},
+  const root= glb.scene;
+  scene.add(root);
+}, function(xhr){
+  console.log((xhr.loaded/xhr.total * 100) + "% loaded")},
 function(error){
   console.log("error occured")
 })
