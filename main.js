@@ -32,6 +32,7 @@ async function loadSinglePlanet(planet, index, array) {
     const model = glb.scene.children[0];
     console.log({root, index})
     const animations = model.animations;
+    root.scale.set(0.2,0.2,0.2);
     model.position.set(0, 0, 0);
     const {x, y} = degreeToCoordiantes(index * 360 / array.length);
     root.position.set(x, 0, y);
@@ -51,7 +52,7 @@ let roots = [];
 
 /** Load all planets */
 async function loadPlanets () {
-  const planets = ["jupiter", "mars", "mercury", "moon", "neptun"];
+  const planets = ["Island", "Island", "Island", "Island", "Island"];
   const roots = await Promise.all(planets.map(loadSinglePlanet));
   const group = new THREE.Object3D();
   roots.map(root => group.add(root));
@@ -128,7 +129,8 @@ scene.add(lightHelper);
 /** Controls */
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.target.set(0, 0, 0);
-
+const space= new THREE.TextureLoader().load('img.jpg');
+scene.background= space;
 
 
 function animate() {
@@ -167,5 +169,6 @@ function addStar() {
   star.position.set(x, y, z);
   scene.add(star);
 }
-// Array(1000).fill().forEach(addStar);
+
+Array(100).fill().forEach(addStar);
 animate();
