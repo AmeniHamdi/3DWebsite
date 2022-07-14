@@ -8,6 +8,9 @@ import {
   GLTFLoader
 } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
+import {
+  FontLoader
+} from 'three/examples/jsm/loaders/FontLoader.js'
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({
@@ -16,6 +19,21 @@ const renderer = new THREE.WebGLRenderer({
 const loader = new GLTFLoader();
 const RADIUS = 5;
 
+// create an AudioListener and add it to the camera
+const listener = new THREE.AudioListener();
+camera.add( listener );
+
+// create a global audio source
+const sound = new THREE.Audio( listener );
+
+// load a sound and set it as the Audio object's buffer
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load( 'sounds/ambient.ogg', function( buffer ) {
+	sound.setBuffer( buffer );
+	sound.setLoop( true );
+	sound.setVolume( 0.5 );
+	sound.play();
+});
 function degreeToCoordiantes(angle) {
   const DEGREE_IN_RADIANS = 0.0174533;
   const pointAngleInRadians = angle * DEGREE_IN_RADIANS;
@@ -129,8 +147,8 @@ scene.add(lightHelper);
 /** Controls */
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.target.set(0, 0, 0);
-const space= new THREE.TextureLoader().load('img.jpg');
-scene.background= space;
+/*const space= new THREE.TextureLoader().load('img.jpg');
+scene.background= space;*/
 
 
 function animate() {
