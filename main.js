@@ -11,6 +11,11 @@ import {
 import {
   FontLoader
 } from 'three/examples/jsm/loaders/FontLoader.js'
+
+import {
+  TextGeometry
+} from 'three/examples/jsm/geometries/TextGeometry.js'
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({
@@ -18,6 +23,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 const loader = new GLTFLoader();
 const RADIUS = 5;
+scene.background= new THREE.Color(0x0000000);
 
 // create an AudioListener and add it to the camera
 const listener = new THREE.AudioListener();
@@ -32,8 +38,38 @@ audioLoader.load( 'sounds/ambient.ogg', function( buffer ) {
 	sound.setBuffer( buffer );
 	sound.setLoop( true );
 	sound.setVolume( 0.5 );
-	sound.play();
+	//sound.play();
 });
+
+ // TEXT
+ const Textloader = new  FontLoader();
+
+ Textloader.load('./fonts/Prepare Party Demo_Regular.json', function (font) {
+     const geometry = new TextGeometry('Sports', {
+         font: font,
+         size: 6,
+         height: 2,
+         curveSegments: 10,
+         bevelEnabled: false,
+         bevelOffset: 0,
+         bevelSegments: 1,
+         bevelSize: 0.3,
+         bevelThickness: 1
+
+     });
+     const textMesh = new THREE.Mesh(geometry, [
+         new THREE.MeshPhongMaterial({ color: 0xad4000 }), // front
+         new THREE.MeshPhongMaterial({ color: 0x999999 }) // side
+     ]);
+     //textMesh= new THREE.Mesh(geometry, materials);
+     textMesh.castShadow = true
+     textMesh.position.z = -50
+     textMesh.position.y = -10
+     textMesh.position.x = -35
+    // textMesh.rotation.x = - Math.PI / 4
+     scene.add(textMesh)
+ });
+
 function degreeToCoordiantes(angle) {
   const DEGREE_IN_RADIANS = 0.0174533;
   const pointAngleInRadians = angle * DEGREE_IN_RADIANS;
@@ -45,7 +81,7 @@ function degreeToCoordiantes(angle) {
 async function loadSinglePlanet(planet, index, array) {
   let resolve = () => {};
   const promise = new Promise(r => resolve = r);
-  loader.load('assets/planets/' + planet + '.glb', function (glb) {
+  loader.load('assets/' + planet + '.glb', function (glb) {
     const root = glb.scene;
     const model = glb.scene.children[0];
     console.log({root, index})
@@ -70,7 +106,7 @@ let roots = [];
 
 /** Load all planets */
 async function loadPlanets () {
-  const planets = ["Island", "Island", "Island", "Island", "Island"];
+  const planets = ["Island", "talan-tennis", "big island", "Island", "Island"];
   const roots = await Promise.all(planets.map(loadSinglePlanet));
   const group = new THREE.Object3D();
   roots.map(root => group.add(root));
