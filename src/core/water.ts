@@ -16,8 +16,8 @@ export class CoreWater {
         }),
         alpha: 0.7,
         sunDirection: new THREE.Vector3(),
-        sunColor: 0xffffff,
-        waterColor: 0x001e0f,
+        sunColor: 0xFFFF00,
+        waterColor: 0x00BFFF,
         distortionScale: 2.5,
         fog: false
       }

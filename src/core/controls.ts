@@ -29,6 +29,7 @@ export class CoreControls {
     window.addEventListener("mousemove", (event) => {
       this.mouse.x = (event.clientX / window.innerHeight) * 2 - 1;
       this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      
     });
     window.addEventListener("click", () => {
       if (!this.currentIntersection?.object) return;

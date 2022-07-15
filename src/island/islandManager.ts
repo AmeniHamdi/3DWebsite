@@ -5,10 +5,10 @@ import { degreeToCoordiantes } from "./helpers";
 
 const modelPath = "assets";
 const modelExtension = "glb";
-
+let mixer;
 export class IslandManager {
 
-  static ALL_ISLANDs = ["jupiter", "mars", "mercury", "moon", "neptun"];
+  static ALL_ISLANDs = ["islandCasino", "moon", "moon", "moon", "neptun"];
   static RADIUS = 5;
   loader: ModelLoader;
   islands: GLTF[] = [];
@@ -60,7 +60,7 @@ export class IslandManager {
     model.position.set(0, 0, 0)
     // root.scale.set(0.2,0.2,0.2);
     root.position.set(0, 0, 0);
-    const angleInDegree = index * 360 / IslandManager.ALL_ISLANDs.length;
+    const angleInDegree = index * 180 / IslandManager.ALL_ISLANDs.length;
     const {x, y} = degreeToCoordiantes(angleInDegree, IslandManager.RADIUS);
     root.position.set(x, 4, y);
     return {...island, root};
@@ -72,6 +72,8 @@ export class IslandManager {
 
   private loadSingleIsland(islandName: string) {
     return this.loader.load(`${modelPath}/${islandName}.${modelExtension}`);
+    
+  
   }
 
 }
